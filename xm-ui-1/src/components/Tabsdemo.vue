@@ -1,6 +1,6 @@
 <template>
   <div>
-      tabs
+      玩的tabs组件
   </div>
 </template>
 
