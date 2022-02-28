@@ -1,21 +1,20 @@
 <template>
-  <div>
-     <button class="xm-switch" :class="{'xm-checked':value}" @click="toggle"><span></span></button>
-  </div>
+  <button class="xm-switch" @click="toggle" :class="{'xm-checked':value}">
+    <span></span>
+  </button>
 </template>
-
 <script lang="ts">
 export default {
-    props:{
-        value:Boolean
-    },
-    setup(props,context){
-        const toggle =()=>{
-            context.emit("update:value" , !props.value)
-        }
-        return {toggle}
-    }
-}
+  props: {
+    value: Boolean,
+  },
+  setup(props, context) {
+    const toggle = () => {
+      context.emit("update:value", !props.value);
+    };
+    return { toggle };
+  }
+};
 </script>
 
 <style lang="scss">
@@ -26,15 +25,15 @@ $h2: $h - 4px;
   > span {
     position: absolute; top: 2px; left: 2px; height: $h2; width: $h2; background: white; border-radius: $h2 / 2; transition: all 250ms;
   }
-   &.xm-checked { background: #1890ff;
+  &.xm-checked { background: #1890ff;
     > span { left: calc(100% - #{$h2} - 2px); }
   }
-    &:focus { outline: none; }
+  &:focus { outline: none; }
   &:active {
     > span { width: $h2 + 4px; }
   }
-    &.xm-checked:active {
+  &.xm-checked:active {
     > span { width: $h2 + 4px; margin-left: -4px; }
   }
 }
-</style> 
+</style>
