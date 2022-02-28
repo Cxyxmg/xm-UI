@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <div class="topnav">
-      <div class="logo">logo</div>
-      <div class="menu">
-        <div>菜单1</div>
-        <div>菜单2</div>
-      </div>
-    <span class="toggleAside"  @click="toggleMenu"></span>
+  <div class="topnav">
+    <div class="logo">
+      <svg  aria-hidden="true">
+        <use xlink:href="#icon-m"></use>
+      </svg>
     </div>
+    <ul class="menu">
+      <li>菜单1</li>
+      <li>菜单2</li>
+    </ul>
+    <span class="toggleAside" @click="toggleMenu"></span>
   </div>
 </template>
 <script lang="ts">
@@ -24,47 +26,47 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+$color: #007974;
 .topnav {
+  color: $color;
   display: flex;
-  background: rgb(255, 198, 203);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   padding: 16px;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  .logo {
-    padding: 12px;
+  > .logo {
+    max-width: 6em;
     margin-right: auto;
-  }
-  .menu {
-    display: flex;
-    div {
-      padding: 10px 10px;
+    > svg{
+      width: 32px;
+      height: 32px;
     }
   }
-  >.toggleAside{
-    display: none;
+  > .menu {
+    display: flex;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    > li {
+      margin: 0 1em;
+    }
+  }
+  > .toggleAside {
     width: 24px;
     height: 24px;
     background: red;
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    z-index: 11;
     transform: translateY(-50%);
+    display: none;
   }
   @media (max-width: 500px) {
     > .menu {
       display: none;
     }
     > .logo {
-      margin: 0 auto;
-    }
-    >.toggleAside{
-    display: inline-block;
+      > .logo {
+        margin: 0 auto;
+      }
+      > .toggleAside {
+        > .toggleAside {
+          display: inline-block;
+        }
+      }
     }
   }
 }

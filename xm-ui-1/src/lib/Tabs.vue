@@ -8,13 +8,13 @@
      <div class="xm-tabs-nav-indicator" ref="indicator"></div>
   </div>
   <div class="xm-tabs-content">
-    <component class="xm-tabs-content-item"  v-for="c in defaults"  v-show="c.props.title ===selected" :key="c" :is="c"  />
+    <component class="xm-tabs-content-item" :is="current"  :key="current.props.title"/>
   </div>
 </div>
 </template>
 
 <script lang='ts'>
-import { computed, onMounted, onUpdated, ref } from 'vue';
+import { computed, onMounted, onUpdated, ref, watchEffect } from 'vue';
 import Tab from "./Tab.vue";
 export default {
   props:{
@@ -23,20 +23,21 @@ export default {
     }
   },
   setup(props, context) {
-    const selectedItem= ref<HTMLElement>(null)
     const indicator =ref<HTMLElement>(null)
+    const selectedItem =ref<HTMLElement>(null)
     const container =ref<HTMLElement>(null)
-    const x =()=>{
-      const {width} =selectedItem.value.getBoundingClientRect()
-      indicator.value.style.width=width +'px'
-      const {left:left1} =container.value.getBoundingClientRect()
-      const {left :left2} =selectedItem.value.getBoundingClientRect()
-      const left =left2-left1
-       indicator.value.style.left=left +'px'
-    }
-    onMounted(x)
-    onUpdated(x)
-    const defaults = context.slots.default();
+    onMounted(()=>{
+      watchEffect(()=>{
+        const {width} =selectedItem.value.getBoundingClientRect()
+        const {left:left1} =container.value.getBoundingClientRect()
+        const {left :left2} =selectedItem.value.getBoundingClientRect()
+        const left =left2-left1
+        indicator.value.style.width=width +'px'
+        indicator.value.style.left=left +'px'
+      })
+
+    })
+     const defaults = context.slots.default();
     defaults.forEach((tag) => {
       if (tag.type !== Tab) {
         throw new Error("Tabs 子标签必须是Tab");  
@@ -50,7 +51,7 @@ export default {
     const titles =  defaults.map((tag) => {
       return tag.props.title;
     });
-    const select=(title:String)=>{
+    const select=(title:String)=>{current
       context.emit('update:selected',title)
       
     }
