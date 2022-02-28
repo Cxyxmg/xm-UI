@@ -56,11 +56,7 @@ export default {
     Button,
   },
   setup() {
-    const onclik = () => {
-      console.log(321);
-    };
-    return {};
-  },
+    },
 };
 </script>
 
