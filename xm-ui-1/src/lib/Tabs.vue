@@ -3,7 +3,7 @@
   <div class="xm-tabs-nav" ref="container">
     <div class="xm-tabs-nav-item" :class=" {selected : t ===selected}"
     v-for="(t,index) in titles" :key="index" 
-    :ref="el=>{if(el)navItems[index]=el}"
+    :ref="el=>{if(t===selected)selectedItem=el}"
     @click="select(t)">{{t}}</div>
      <div class="xm-tabs-nav-indicator" ref="indicator"></div>
   </div>
@@ -23,16 +23,14 @@ export default {
     }
   },
   setup(props, context) {
-    const navItems =ref<HTMLElement[]>([])
+    const selectedItem= ref<HTMLElement>(null)
     const indicator =ref<HTMLElement>(null)
     const container =ref<HTMLElement>(null)
     const x =()=>{
-      const divs=navItems.value
-      const result =divs.filter(div =>div.classList.contains('selected'))[0]
-      const {width} =result.getBoundingClientRect()
+      const {width} =selectedItem.value.getBoundingClientRect()
       indicator.value.style.width=width +'px'
       const {left:left1} =container.value.getBoundingClientRect()
-      const {left :left2} =result.getBoundingClientRect()
+      const {left :left2} =selectedItem.value.getBoundingClientRect()
       const left =left2-left1
        indicator.value.style.left=left +'px'
     }
@@ -56,7 +54,7 @@ export default {
       context.emit('update:selected',title)
       
     }
-    return { defaults, titles,current,select,navItems,indicator ,container};
+    return { defaults, titles,current,select,selectedItem,indicator ,container};
   },
 };
 </script>
